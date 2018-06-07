@@ -1,12 +1,13 @@
 //
 //  Games.swift
-//  Game
+//  ZiangQiuPlaneWar
 //
-//  Created by 钟凡 on 2017/5/10.
-//  Copyright © 2017年 钟凡. All rights reserved.
+//  Created by Qiu Ziang on 2018/6/6.
+//  Copyright © 2018年 skylove. All rights reserved.
 //
 
 import SpriteKit
+import AVFoundation
 
 struct PhysicsCategory {
     static let None      : UInt32 = 0
@@ -20,18 +21,15 @@ class Games: SKScene, SKPhysicsContactDelegate {
     let player = SKSpriteNode(imageNamed: "Spaceship")
     var monstersDestroyed = 0
     
+  
+    
     override func didMove(to view: SKView) {
-        // 2
         backgroundColor = SKColor.white
-        // 3
         player.size = CGSize(width: 40, height: 40)
         player.position = CGPoint(x: size.width * 0.5, y: size.height * 0.5)
-        
         physicsWorld.gravity = CGVector(dx: 0, dy: 0)
         physicsWorld.contactDelegate = self
-        // 4
         addChild(player)
-        
         run(SKAction.repeatForever(
             SKAction.sequence([
                 SKAction.run(addMonster),
