@@ -13,7 +13,7 @@ import AVFoundation
 class GameViewController: UIViewController {
     
     
-  
+    var playerName = ""
     
     
     override func viewDidLoad() {
@@ -24,6 +24,7 @@ class GameViewController: UIViewController {
             // Set the scale mode to scale to fit the window
             scene.scaleMode = .resizeFill
             // Present the scene
+            scene.playerName = playerName
             view.ignoresSiblingOrder = true
             view.showsFPS = true
             view.showsNodeCount = true

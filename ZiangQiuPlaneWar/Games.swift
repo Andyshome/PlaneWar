@@ -16,15 +16,38 @@ struct PhysicsCategory {
     static let Projectile: UInt32 = 0b10      // 2
 }
 
+
 class Games: SKScene, SKPhysicsContactDelegate {
     // 1
     let player = SKSpriteNode(imageNamed: "Spaceship")
     var monstersDestroyed = 0
+    var scorLb:SKLabelNode?
+    var nameLb:SKLabelNode?
+    var background = SKSpriteNode(imageNamed: "bg_01")
+    var playerName = ""
+    private func addScoreLb() {
+        scorLb = SKLabelNode.init(fontNamed: "Chalkduster")
+        scorLb?.text = "0"
+        scorLb?.fontSize = 20
+        scorLb?.fontColor = .black
+        scorLb?.position = .init(x: 50, y: size.height - 80)
+        addChild(scorLb!)
+    }
     
-  
+    private func addName() {
+        nameLb = SKLabelNode.init(fontNamed: "Helvetica")
+        nameLb?.text = playerName
+        nameLb?.fontSize = 24
+        nameLb?.fontColor = .black
+        nameLb?.position = .init(x: 50, y: size.height - 40)
+        addChild(nameLb!)
+    }
     
     override func didMove(to view: SKView) {
-        backgroundColor = SKColor.white
+        background.position = CGPoint(x: frame.size.width / 2, y: frame.size.height / 2)
+        addChild(background)
+        addScoreLb()
+        addName()
         player.size = CGSize(width: 40, height: 40)
         player.position = CGPoint(x: size.width * 0.5, y: size.height * 0.5)
         physicsWorld.gravity = CGVector(dx: 0, dy: 0)
@@ -33,7 +56,7 @@ class Games: SKScene, SKPhysicsContactDelegate {
         run(SKAction.repeatForever(
             SKAction.sequence([
                 SKAction.run(addMonster),
-                SKAction.wait(forDuration: 1.0)
+                SKAction.wait(forDuration: 0.4)
                 ])
         ))
         run(SKAction.repeatForever(
@@ -72,7 +95,7 @@ class Games: SKScene, SKPhysicsContactDelegate {
     }
     func addMonster() {
         // Create sprite
-        let monster = SKSpriteNode(imageNamed: "Rectangle")
+        let monster = SKSpriteNode(imageNamed: "enemy-1")
         
         // Determine where to spawn the monster along the Y axis
         let actualX = random(min: -monster.size.width/2, max: size.width + monster.size.width/2)
@@ -149,10 +172,12 @@ class Games: SKScene, SKPhysicsContactDelegate {
     func projectileDidCollideWithMonster(projectile:SKSpriteNode, monster:SKSpriteNode) {
         print("Hit")
         monstersDestroyed += 1
+        scorLb?.text = String(monstersDestroyed)
         if (monstersDestroyed > 30) {
             let reveal = SKTransition.flipHorizontal(withDuration: 0.5)
             let gameOverScene = GameOverScene(size: self.size, won: true)
             self.view?.presentScene(gameOverScene, transition: reveal)
+            saveData(data: playerName+":"+String(monstersDestroyed))
         }
         projectile.removeFromParent()
         monster.removeFromParent()
@@ -176,6 +201,30 @@ class Games: SKScene, SKPhysicsContactDelegate {
         }
         
     }
+    
+    
+    func saveData(data:String) {
+        // load the data before
+        guard let arrayListObject = UserDefaults.standard.object(forKey: "nomalMode") else {
+            print("error")
+            return
+        }
+        // get the array
+        guard var arrayList = arrayListObject as? Array<String> else {
+            return
+        }
+        // append the data
+        arrayList.append(data)
+        // save the data to user defaults
+        UserDefaults.standard.set(arrayList, forKey: "nomalMode")
+        // call the notification center
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "nomal"), object: nil)
+        // print
+        print("success")
+    }
+    
+    
+    
 }
 func + (left: CGPoint, right: CGPoint) -> CGPoint {
     return CGPoint(x: left.x + right.x, y: left.y + right.y)

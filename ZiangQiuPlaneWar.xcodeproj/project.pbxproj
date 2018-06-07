@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		54BB3A8920C999CC00CE33DA /* NameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54BB3A8820C999CC00CE33DA /* NameViewController.swift */; };
 		FE92762320C89A23006B05F5 /* bgm.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = FE92762220C89A23006B05F5 /* bgm.mp3 */; };
 		FECE3AF420C8F3CD001D02FE /* mainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FECE3AF320C8F3CD001D02FE /* mainViewController.swift */; };
 		FECE3AF620C8F59C001D02FE /* leaderBoardController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FECE3AF520C8F59C001D02FE /* leaderBoardController.swift */; };
@@ -21,6 +22,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		54BB3A8820C999CC00CE33DA /* NameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameViewController.swift; sourceTree = "<group>"; };
 		FE92762220C89A23006B05F5 /* bgm.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = bgm.mp3; sourceTree = "<group>"; };
 		FECE3AF320C8F3CD001D02FE /* mainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mainViewController.swift; sourceTree = "<group>"; };
 		FECE3AF520C8F59C001D02FE /* leaderBoardController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = leaderBoardController.swift; sourceTree = "<group>"; };
@@ -72,6 +74,7 @@
 				FED5006520C7ABE900C4DE43 /* GameViewController.swift */,
 				FED5007920C7AC4200C4DE43 /* GameOverScene.swift */,
 				FED5007B20C7AC4700C4DE43 /* GameOverScene.sks */,
+				54BB3A8820C999CC00CE33DA /* NameViewController.swift */,
 				FECE3AF520C8F59C001D02FE /* leaderBoardController.swift */,
 				FED5006720C7ABE900C4DE43 /* Main.storyboard */,
 				FED5006A20C7ABEA00C4DE43 /* Assets.xcassets */,
@@ -157,6 +160,7 @@
 			files = (
 				FED5007A20C7AC4200C4DE43 /* GameOverScene.swift in Sources */,
 				FED5006620C7ABE900C4DE43 /* GameViewController.swift in Sources */,
+				54BB3A8920C999CC00CE33DA /* NameViewController.swift in Sources */,
 				FED5005E20C7ABE900C4DE43 /* AppDelegate.swift in Sources */,
 				FED5007820C7AC3900C4DE43 /* Games.swift in Sources */,
 				FECE3AF420C8F3CD001D02FE /* mainViewController.swift in Sources */,
