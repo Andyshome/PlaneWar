@@ -196,13 +196,6 @@ class Games: SKScene, SKPhysicsContactDelegate {
         print("Hit")
         monstersDestroyed += 1
         scorLb?.text = String(monstersDestroyed)
-        if (monstersDestroyed > 30) {
-            let reveal = SKTransition.flipHorizontal(withDuration: 0.5)
-            let gameOverScene = GameOverScene(size: self.size, won: true)
-            self.view?.presentScene(gameOverScene, transition: reveal)
-            saveData(data: playerName+":"+String(monstersDestroyed))
-            print("you win this game!!!!")
-        }
         let position = monsterArray.index(of: monster)
         if position != nil {
             monsterArray.remove(at: position!)
@@ -255,11 +248,11 @@ class Games: SKScene, SKPhysicsContactDelegate {
     override func update(_ currentTime: TimeInterval) {
         for monster in monsterArray {
             if monster.frame.intersects(player.frame){
+                saveData(data: playerName+":"+String(monstersDestroyed))
                 print("die,die,die")
                 let reveal = SKTransition.flipHorizontal(withDuration: 0.5)
                 let gameOverScene = GameOverScene(size: self.size, won: true)
                 self.view?.presentScene(gameOverScene, transition: reveal)
-                saveData(data: playerName+":"+String(monstersDestroyed))
             }
         }
         
