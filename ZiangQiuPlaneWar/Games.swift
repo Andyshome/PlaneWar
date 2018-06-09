@@ -28,11 +28,12 @@ class Games: SKScene, SKPhysicsContactDelegate {
     var scorLb:SKLabelNode?
     var nameLb:SKLabelNode?
     var playerName = ""
+    var totalMonster = 0
+    private var shouldMove = false
     lazy var shootSoundAction = { () -> SKAction in
         let action = SKAction.playSoundFileNamed("shoot.mp3", waitForCompletion: false)
         return action
     }()
-    private var boss = SKSpriteNode.init(imageNamed: "boss")
     private func addScoreLb() {
         scorLb = SKLabelNode.init(fontNamed: "Chalkduster")
         scorLb?.text = "0"
@@ -99,17 +100,40 @@ class Games: SKScene, SKPhysicsContactDelegate {
     private func addMonster(){
         weak var wkself = self
         let addMonsterAction = SKAction.run {
-            <#code#>
+            wkself?.getMonster()
         }
-        
+        let waitAction = SKAction.wait(forDuration: 0.5)
+        let sequence = SKAction.sequence([addMonsterAction,waitAction])
+        let repeatAction = SKAction.repeatForever(sequence)
+        run(repeatAction)
         
         
     }
     
     private func getMonster(){
+        weak var wkself = self
+        let minimumDuration:Int = 4
+        let maximumDuration:Int = 5
+        let duration = Int(arc4random_uniform((UInt32(maximumDuration - minimumDuration)))) + minimumDuration
+        let monster = SKSpriteNode.init(imageNamed: "enemy-1")
+        let minx:Int = Int(monster.size.width / 2)
+        let maxx:Int = Int(size.width - monster.size.width / 2)
+        let gapx:Int = maxx - minx
+        let xpos:Int = Int(arc4random_uniform(UInt32(gapx))) + minx
+        monster.position = .init(x: CGFloat(xpos), y: (size.height + monster.size.height/2))
+        addChild(monster)
+        totalMonster += 1
+        monsterArray.append(monster)
+        let move = SKAction.moveTo(y: -monster.size.height/2, duration: TimeInterval(duration))
+        let remove = SKAction.run {
+            monster.removeFromParent()
+            let index = wkself?.monsterArray.index(of:monster)
+            if index != nil {
+                wkself?.monsterArray.remove(at: index!)
+            }
+        }
         
-        
-        
+        monster.run(SKAction.sequence([move,remove]))
         
         
         
@@ -166,14 +190,57 @@ class Games: SKScene, SKPhysicsContactDelegate {
         run(repeatShootAction)
     }
     
-    
-    func random() -> CGFloat {
-        return CGFloat(Float(arc4random()) / 0xFFFFFFFF)
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        let touch = touches.first!
+        let location = touch.location(in: self)
+        var frm = player.frame
+        frm = .init(x: frm.origin.x, y: frm.origin.y, width: frm.size.width + 100, height: frm.size.height + 100)
+        if !frm.contains(location) {
+            shouldMove = false
+        }else{
+            shouldMove = true
+        }
+    }
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        guard  shouldMove else {
+            return
+        }
+        let touch = touches.first!
+        let previousPosition = touch.previousLocation(in: view)
+        let currentPosition = touch.location(in: view)
+        let offsetx = currentPosition.x - previousPosition.x
+        let offsety = currentPosition.y - previousPosition.y
+        let x = player.position.x + offsetx
+        guard  x >= player.size.width/2, x <= size.width-hero.size.width/2 else {
+            return
+        }
+        let y = player.position.y - offsety
+        guard y >= player.size.height/2, y <= size.height-hero.size.height/2 else {
+            return
+        }
+        player.position = .init(x: x , y: y)
     }
     
-    func random(min: CGFloat, max: CGFloat) -> CGFloat {
-        return random() * (max - min) + min
-    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     /*
     func addBullet() {
         // 2 - Set up initial location of projectile
@@ -339,46 +406,45 @@ class Games: SKScene, SKPhysicsContactDelegate {
     override func update(_ currentTime: TimeInterval) {
         for monster in monsterArray {
             if monster.frame.intersects(player.frame){
-                saveData(data: playerName+":"+String(monstersDestroyed))
-                print("die,die,die")
-                let reveal = SKTransition.flipHorizontal(withDuration: 0.5)
-                let gameOverScene = GameOverScene(size: self.size, won: true)
-                self.view?.presentScene(gameOverScene, transition: reveal)
+                gameOver()
             }
+            for bullet in bulletArray {
+                if bullet.intersects(monster){
+                    bullet.removeFromParent()
+                    monster.removeFromParent()
+                    let bulletIndex = bulletArray.index(of:bullet)
+                    if bulletIndex != nil {
+                        bulletArray.remove(at: bulletIndex!)
+                    }
+                    let monsterIndex = monsterArray.index(of:monster)
+                    if monsterIndex != nil {
+                        monsterArray.remove(at: monsterIndex!)
+                    }
+                }
+            }
+            
+            
+            
+            
+            
         }
         
     }
     
-    
-}
-func + (left: CGPoint, right: CGPoint) -> CGPoint {
-    return CGPoint(x: left.x + right.x, y: left.y + right.y)
-}
-
-func - (left: CGPoint, right: CGPoint) -> CGPoint {
-    return CGPoint(x: left.x - right.x, y: left.y - right.y)
-}
-
-func * (point: CGPoint, scalar: CGFloat) -> CGPoint {
-    return CGPoint(x: point.x * scalar, y: point.y * scalar)
-}
-
-func / (point: CGPoint, scalar: CGFloat) -> CGPoint {
-    return CGPoint(x: point.x / scalar, y: point.y / scalar)
-}
-
-#if !(arch(x86_64) || arch(arm64))
-    func sqrt(a: CGFloat) -> CGFloat {
-        return CGFloat(sqrtf(Float(a)))
-    }
-#endif
-
-extension CGPoint {
-    func length() -> CGFloat {
-        return sqrt(x*x + y*y)
+    private func gameOver(){
+        saveData(data: playerName+":"+String(monstersDestroyed))
+        print("die,die,die")
+        let reveal = SKTransition.flipHorizontal(withDuration: 0.5)
+        let gameOverScene = GameOverScene(size: self.size, won: true)
+        self.view?.presentScene(gameOverScene, transition: reveal)
+        
     }
     
-    func normalized() -> CGPoint {
-        return self / length()
-    }
+    
+    
+    
+    
+    
+    
+    
 }
