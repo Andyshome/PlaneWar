@@ -28,6 +28,14 @@ class Games: SKScene, SKPhysicsContactDelegate {
     var scorLb:SKLabelNode?
     var nameLb:SKLabelNode?
     var playerName = ""
+    lazy var shootSoundAction = {
+        
+    }
+    
+    
+    
+    
+    
     private func addScoreLb() {
         scorLb = SKLabelNode.init(fontNamed: "Chalkduster")
         scorLb?.text = "0"
@@ -85,6 +93,27 @@ class Games: SKScene, SKPhysicsContactDelegate {
                 ])
         ))
     }
+    
+    
+    private func shoot() {
+        
+        
+        let bulletNode = SKSpriteNode.init(imageNamed: "bullet-1")
+        bulletNode.position = player.position
+        addChild(bulletNode)
+        bulletArray.append(bulletNode)
+        let distence = size.height - bulletNode.position.y
+        let speed = size.height
+        let duration = distence / speed
+        let move = SKAction.moveTo(y: size.height, duration: TimeInterval(duration))
+        
+        
+        
+    }
+    
+    
+    
+    
     
     func random() -> CGFloat {
         return CGFloat(Float(arc4random()) / 0xFFFFFFFF)
