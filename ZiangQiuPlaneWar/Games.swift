@@ -23,8 +23,8 @@ class Games: SKScene, SKPhysicsContactDelegate {
     
     var monsterArray : [SKSpriteNode] = [SKSpriteNode]()
     var bulletArray : [SKSpriteNode] = [SKSpriteNode]()
-    let player = SKSpriteNode(imageNamed: "Spaceship")
-    var monstersDestroyed = 0
+    let player = SKSpriteNode.init(imageNamed: "Spaceship")
+    var score = 0
     var scorLb:SKLabelNode?
     var nameLb:SKLabelNode?
     var playerName = ""
@@ -64,21 +64,10 @@ class Games: SKScene, SKPhysicsContactDelegate {
         addChild(bgNode)
     }
     
-    private func setup() {
-        player.size = CGSize(width: 40, height: 40)
-        player.position = CGPoint(x: size.width * 0.5, y: size.height * 0.5)
-        player.zPosition = 12
-        physicsWorld.gravity = CGVector(dx: 0, dy: 0)
-        physicsWorld.contactDelegate = self
-        addBg()
-        addScoreLb()
-        addName()
-        addChild(player)
-    }
+  
     
     override init(size : CGSize) {
         super.init(size: size)
-        setup()
         addNode()
     }
     
@@ -94,6 +83,7 @@ class Games: SKScene, SKPhysicsContactDelegate {
         addBg()
         addScoreLb()
         addName()
+        addMonster()
     }
     
     
@@ -178,8 +168,9 @@ class Games: SKScene, SKPhysicsContactDelegate {
     
     private func addHero(){
         player.position = .init(x: size.width/2, y:player.size.height/2)
-        player.name = "player"
+        player.name = "Spaceship"
         addChild(player)
+        player.zPosition = 12
         weak var wkself = self
         let shootAction = SKAction.run {
             wkself?.shoot()
@@ -211,11 +202,11 @@ class Games: SKScene, SKPhysicsContactDelegate {
         let offsetx = currentPosition.x - previousPosition.x
         let offsety = currentPosition.y - previousPosition.y
         let x = player.position.x + offsetx
-        guard  x >= player.size.width/2, x <= size.width-hero.size.width/2 else {
+        guard  x >= player.size.width/2, x <= size.width - player.size.width/2 else {
             return
         }
         let y = player.position.y - offsety
-        guard y >= player.size.height/2, y <= size.height-hero.size.height/2 else {
+        guard y >= player.size.height/2, y <= size.height - player.size.height/2 else {
             return
         }
         player.position = .init(x: x , y: y)
@@ -420,6 +411,16 @@ class Games: SKScene, SKPhysicsContactDelegate {
                     if monsterIndex != nil {
                         monsterArray.remove(at: monsterIndex!)
                     }
+                    
+                    
+                    score += 1
+                    scorLb?.text = String(score)
+                    
+                    
+                    
+                    
+                    
+                    
                 }
             }
             
@@ -432,7 +433,7 @@ class Games: SKScene, SKPhysicsContactDelegate {
     }
     
     private func gameOver(){
-        saveData(data: playerName+":"+String(monstersDestroyed))
+        saveData(data: playerName+":"+String(score))
         print("die,die,die")
         let reveal = SKTransition.flipHorizontal(withDuration: 0.5)
         let gameOverScene = GameOverScene(size: self.size, won: true)
