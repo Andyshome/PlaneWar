@@ -8,14 +8,14 @@
 
 import SpriteKit
 import AVFoundation
-
+/*
 struct PhysicsCategory {
     static let None      : UInt32 = 0
     static let All       : UInt32 = UInt32.max
     static let Monster   : UInt32 = 0b1       // 1
     static let Projectile: UInt32 = 0b10      // 2
 }
-
+*/
 
 class Games: SKScene, SKPhysicsContactDelegate {
     // 1
@@ -28,14 +28,11 @@ class Games: SKScene, SKPhysicsContactDelegate {
     var scorLb:SKLabelNode?
     var nameLb:SKLabelNode?
     var playerName = ""
-    lazy var shootSoundAction = {
-        
-    }
-    
-    
-    
-    
-    
+    lazy var shootSoundAction = { () -> SKAction in
+        let action = SKAction.playSoundFileNamed("shoot.mp3", waitForCompletion: false)
+        return action
+    }()
+    private var boss = SKSpriteNode.init(imageNamed: "boss")
     private func addScoreLb() {
         scorLb = SKLabelNode.init(fontNamed: "Chalkduster")
         scorLb?.text = "0"
@@ -78,21 +75,57 @@ class Games: SKScene, SKPhysicsContactDelegate {
         addChild(player)
     }
     
-    override func didMove(to view: SKView) {
+    override init(size : CGSize) {
+        super.init(size: size)
         setup()
-        run(SKAction.repeatForever(
-            SKAction.sequence([
-                SKAction.run(addMonster),
-                SKAction.wait(forDuration: 0.3)
-                ])
-        ))
-        run(SKAction.repeatForever(
-            SKAction.sequence([
-                SKAction.run(addBullet),
-                SKAction.wait(forDuration: 0.2)
-                ])
-        ))
+        addNode()
     }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    
+    
+    
+    private func addNode(){
+        addHero()
+        addBg()
+        addScoreLb()
+        addName()
+    }
+    
+    
+    private func addMonster(){
+        weak var wkself = self
+        let addMonsterAction = SKAction.run {
+            <#code#>
+        }
+        
+        
+        
+    }
+    
+    private func getMonster(){
+        
+        
+        
+        
+        
+        
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     private func shoot() {
@@ -106,13 +139,32 @@ class Games: SKScene, SKPhysicsContactDelegate {
         let speed = size.height
         let duration = distence / speed
         let move = SKAction.moveTo(y: size.height, duration: TimeInterval(duration))
-        
-        
-        
+        weak var wkbullet = bulletNode
+        weak var wkself = self
+        let group = SKAction.group([move,shootSoundAction])
+        bulletNode.run(group,completion:{
+            wkbullet?.removeFromParent()
+            let index = wkself?.bulletArray.index(of: wkbullet!)
+            if index != nil {
+                wkself?.bulletArray.remove(at: index!)
+            }
+        })
     }
     
     
-    
+    private func addHero(){
+        player.position = .init(x: size.width/2, y:player.size.height/2)
+        player.name = "player"
+        addChild(player)
+        weak var wkself = self
+        let shootAction = SKAction.run {
+            wkself?.shoot()
+        }
+        let wait = SKAction.wait(forDuration: 0.2)
+        let sequenceAction = SKAction.sequence([shootAction,wait])
+        let repeatShootAction = SKAction.repeatForever(sequenceAction)
+        run(repeatShootAction)
+    }
     
     
     func random() -> CGFloat {
@@ -122,6 +174,7 @@ class Games: SKScene, SKPhysicsContactDelegate {
     func random(min: CGFloat, max: CGFloat) -> CGFloat {
         return random() * (max - min) + min
     }
+    /*
     func addBullet() {
         // 2 - Set up initial location of projectile
         let bullet = SKSpriteNode(imageNamed: "Rectangle")
@@ -142,6 +195,7 @@ class Games: SKScene, SKPhysicsContactDelegate {
         let actionMoveDone = SKAction.removeFromParent()
         bullet.run(SKAction.sequence([actionMove, actionMoveDone]))
     }
+ 
     func addMonster() {
         // Create sprite
         let monster = SKSpriteNode(imageNamed: "enemy-1")
@@ -178,6 +232,11 @@ class Games: SKScene, SKPhysicsContactDelegate {
         let touchLocation = touch.location(in: self)
         player.position = touchLocation
     }
+    
+    
+    
+    
+    
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         
         // 1 - Choose one of the touches to work with
@@ -221,6 +280,8 @@ class Games: SKScene, SKPhysicsContactDelegate {
         let actionMoveDone = SKAction.removeFromParent()
         projectile.run(SKAction.sequence([actionMove, actionMoveDone]))
     }
+     
+     
     func projectileDidCollideWithMonster(projectile:SKSpriteNode, monster:SKSpriteNode) {
         print("Hit")
         monstersDestroyed += 1
@@ -233,6 +294,7 @@ class Games: SKScene, SKPhysicsContactDelegate {
         projectile.removeFromParent()
         monster.removeFromParent()
     }
+
     func didBegin(_ contact: SKPhysicsContact) {
         // 1
         var firstBody: SKPhysicsBody
@@ -253,7 +315,7 @@ class Games: SKScene, SKPhysicsContactDelegate {
         
     }
     
-    
+    */
     func saveData(data:String) {
         // load the data before
         guard let arrayListObject = UserDefaults.standard.object(forKey: "nomalMode") else {
