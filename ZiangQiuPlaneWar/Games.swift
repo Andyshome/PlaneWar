@@ -8,14 +8,7 @@
 
 import SpriteKit
 import AVFoundation
-/*
-struct PhysicsCategory {
-    static let None      : UInt32 = 0
-    static let All       : UInt32 = UInt32.max
-    static let Monster   : UInt32 = 0b1       // 1
-    static let Projectile: UInt32 = 0b10      // 2
-}
-*/
+
 
 class Games: SKScene, SKPhysicsContactDelegate {
     // 1
@@ -29,6 +22,7 @@ class Games: SKScene, SKPhysicsContactDelegate {
     var nameLb:SKLabelNode?
     var playerName = ""
     var totalMonster = 0
+    var supplyNode = SKSpriteNode.init(imageNamed: "supply")
     private var shouldMove = false
     lazy var shootSoundAction = { () -> SKAction in
         let action = SKAction.playSoundFileNamed("shoot.mp3", waitForCompletion: false)
@@ -92,7 +86,7 @@ class Games: SKScene, SKPhysicsContactDelegate {
         let addMonsterAction = SKAction.run {
             wkself?.getMonster()
         }
-        let waitAction = SKAction.wait(forDuration: 0.5)
+        let waitAction = SKAction.wait(forDuration: 0.2)
         let sequence = SKAction.sequence([addMonsterAction,waitAction])
         let repeatAction = SKAction.repeatForever(sequence)
         run(repeatAction)
@@ -101,11 +95,13 @@ class Games: SKScene, SKPhysicsContactDelegate {
     }
     
     private func getMonster(){
+        addSupply()
         weak var wkself = self
         let minimumDuration:Int = 4
         let maximumDuration:Int = 5
         let duration = Int(arc4random_uniform((UInt32(maximumDuration - minimumDuration)))) + minimumDuration
         let monster = SKSpriteNode.init(imageNamed: "enemy-1")
+        monster.zPosition = 13
         let minx:Int = Int(monster.size.width / 2)
         let maxx:Int = Int(size.width - monster.size.width / 2)
         let gapx:Int = maxx - minx
@@ -124,12 +120,25 @@ class Games: SKScene, SKPhysicsContactDelegate {
         }
         
         monster.run(SKAction.sequence([move,remove]))
-        
-        
-        
     }
     
-    
+    private func addSupply(){
+        if arc4random_uniform(100) < 10 {
+            return
+        }
+        if supplyNode.parent != nil {
+            return
+        }
+        let supplyx = CGFloat(arc4random_uniform(UInt32(size.width - supplyNode.size.width))) + supplyNode.size.width/2
+        supplyNode.zPosition = 14
+        supplyNode.removeAllActions()
+        supplyNode.position = .init(x: supplyx, y: size.height + size.height + supplyNode.size.height/2)
+        addChild(supplyNode)
+        let move = SKAction.moveTo(y: -supplyNode.size.height/2, duration: TimeInterval(5))
+        supplyNode.run(move, completion: {
+            self.supplyNode.removeFromParent()
+        })
+    }
     
     
     
@@ -149,6 +158,7 @@ class Games: SKScene, SKPhysicsContactDelegate {
         bulletNode.position = player.position
         addChild(bulletNode)
         bulletArray.append(bulletNode)
+        bulletNode.zPosition = 14
         let distence = size.height - bulletNode.position.y
         let speed = size.height
         let duration = distence / speed
@@ -164,9 +174,8 @@ class Games: SKScene, SKPhysicsContactDelegate {
             }
         })
     }
-    
-    
     private func addHero(){
+        player.size = .init(width: 40, height: 40)
         player.position = .init(x: size.width/2, y:player.size.height/2)
         player.name = "Spaceship"
         addChild(player)
@@ -213,167 +222,7 @@ class Games: SKScene, SKPhysicsContactDelegate {
     }
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    /*
-    func addBullet() {
-        // 2 - Set up initial location of projectile
-        let bullet = SKSpriteNode(imageNamed: "Rectangle")
-        bullet.size = CGSize(width: 10, height: 10)
-        bullet.position = player.position
-        bullet.physicsBody = SKPhysicsBody(circleOfRadius: bullet.size.width/2)
-        bullet.physicsBody?.isDynamic = true
-        bullet.zPosition = 7
-        bullet.physicsBody?.categoryBitMask = PhysicsCategory.Projectile
-        bullet.physicsBody?.contactTestBitMask = PhysicsCategory.Monster
-        bullet.physicsBody?.collisionBitMask = PhysicsCategory.None
-        bullet.physicsBody?.usesPreciseCollisionDetection = true
-        bulletArray.append(bullet)
-        addChild(bullet)
-        
-        // Create the actions
-        let actionMove = SKAction.move(to: CGPoint(x: player.position.x, y: size.height + bullet.size.width/2), duration: 1)
-        let actionMoveDone = SKAction.removeFromParent()
-        bullet.run(SKAction.sequence([actionMove, actionMoveDone]))
-    }
- 
-    func addMonster() {
-        // Create sprite
-        let monster = SKSpriteNode(imageNamed: "enemy-1")
-        
-        // Determine where to spawn the monster along the Y axis
-        let actualX = random(min: -monster.size.width/2, max: size.width + monster.size.width/2)
-        
-        // Position the monster slightly off-screen along the right edge,
-        // and along a random position along the Y axis as calculated above
-        monster.position = CGPoint(x: actualX, y: size.height + monster.size.height/2)
-        monster.physicsBody = SKPhysicsBody(rectangleOf: monster.size)
-        monster.physicsBody?.isDynamic = true // 2
-        monster.zPosition = 13
-        monster.physicsBody?.categoryBitMask = PhysicsCategory.Monster // 3
-        monster.physicsBody?.contactTestBitMask = PhysicsCategory.Projectile // 4
-        monster.physicsBody?.collisionBitMask = PhysicsCategory.None
-        // Add the monster to the scene
-        addChild(monster)
-        monsterArray.append(monster)
-        
-        // Determine speed of the monster
-        let actualDuration = random(min: CGFloat(2.0), max: CGFloat(4.0))
-        
-        // Create the actions
-        let actionMove = SKAction.move(to: CGPoint(x: actualX, y: 0), duration: TimeInterval(actualDuration))
-        let actionMoveDone = SKAction.removeFromParent()
-        
-        monster.run(SKAction.sequence([actionMove, actionMoveDone]))
-    }
-    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        guard let touch = touches.first else {
-            return
-        }
-        let touchLocation = touch.location(in: self)
-        player.position = touchLocation
-    }
-    
-    
-    
-    
-    
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
-        // 1 - Choose one of the touches to work with
-        guard let touch = touches.first else {
-            return
-        }
-        let touchLocation = touch.location(in: self)
-        
-        // 2 - Set up initial location of projectile
-        let projectile = SKSpriteNode(imageNamed: "Rectangle")
-        projectile.zPosition = 6
-        projectile.size = CGSize(width: 10, height: 10)
-        projectile.position = player.position
-        projectile.physicsBody = SKPhysicsBody(circleOfRadius: projectile.size.width/2)
-        projectile.physicsBody?.isDynamic = true
-        projectile.physicsBody?.categoryBitMask = PhysicsCategory.Projectile
-        projectile.physicsBody?.contactTestBitMask = PhysicsCategory.Monster
-        projectile.physicsBody?.collisionBitMask = PhysicsCategory.None
-        projectile.physicsBody?.usesPreciseCollisionDetection = true
-        
-        // 3 - Determine offset of location to projectile
-        let offset = touchLocation - projectile.position
-        
-        // 4 - Bail out if you are shooting down or backwards
-        if (offset.y < 0) { return }
-        
-        // 5 - OK to add now - you've double checked position
-        addChild(projectile)
-        
-        // 6 - Get the direction of where to shoot
-        let direction = offset.normalized()
-        
-        // 7 - Make it shoot far enough to be guaranteed off screen
-        let shootAmount = direction * 1000
-        
-        // 8 - Add the shoot amount to the current position
-        let realDest = shootAmount + projectile.position
-        
-        // 9 - Create the actions
-        let actionMove = SKAction.move(to: realDest, duration: 2.0)
-        let actionMoveDone = SKAction.removeFromParent()
-        projectile.run(SKAction.sequence([actionMove, actionMoveDone]))
-    }
-     
-     
-    func projectileDidCollideWithMonster(projectile:SKSpriteNode, monster:SKSpriteNode) {
-        print("Hit")
-        monstersDestroyed += 1
-        scorLb?.text = String(monstersDestroyed)
-        let position = monsterArray.index(of: monster)
-        if position != nil {
-            monsterArray.remove(at: position!)
-        }
-        
-        projectile.removeFromParent()
-        monster.removeFromParent()
-    }
 
-    func didBegin(_ contact: SKPhysicsContact) {
-        // 1
-        var firstBody: SKPhysicsBody
-        var secondBody: SKPhysicsBody
-        if contact.bodyA.categoryBitMask < contact.bodyB.categoryBitMask {
-            firstBody = contact.bodyA
-            secondBody = contact.bodyB
-        } else {
-            firstBody = contact.bodyB
-            secondBody = contact.bodyA
-        }
-        
-        // 2
-        if ((firstBody.categoryBitMask & PhysicsCategory.Monster != 0) &&
-            (secondBody.categoryBitMask & PhysicsCategory.Projectile != 0)) {
-            projectileDidCollideWithMonster(projectile: firstBody.node as! SKSpriteNode, monster: secondBody.node as! SKSpriteNode)
-        }
-        
-    }
-    
-    */
     func saveData(data:String) {
         // load the data before
         guard let arrayListObject = UserDefaults.standard.object(forKey: "nomalMode") else {
@@ -394,6 +243,8 @@ class Games: SKScene, SKPhysicsContactDelegate {
         print("success")
     }
     
+    
+    
     override func update(_ currentTime: TimeInterval) {
         for monster in monsterArray {
             if monster.frame.intersects(player.frame){
@@ -411,16 +262,8 @@ class Games: SKScene, SKPhysicsContactDelegate {
                     if monsterIndex != nil {
                         monsterArray.remove(at: monsterIndex!)
                     }
-                    
-                    
                     score += 1
                     scorLb?.text = String(score)
-                    
-                    
-                    
-                    
-                    
-                    
                 }
             }
             
@@ -429,6 +272,25 @@ class Games: SKScene, SKPhysicsContactDelegate {
             
             
         }
+        
+        
+        if supplyNode.parent != nil {
+            if supplyNode.frame.intersects(player.frame){
+                supplyNode.removeFromParent()
+                if monsterArray.count > 0 {
+                    monsterArray.forEach{
+                        score += 1
+                        scorLb?.text = String(score)
+                        $0.removeFromParent()
+                    }
+                    monsterArray.removeAll()
+                }
+            }
+        }
+        
+        
+        
+        
         
     }
     
