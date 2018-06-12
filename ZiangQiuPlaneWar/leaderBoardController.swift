@@ -10,11 +10,12 @@ import UIKit
 class leaderBoardController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     override func viewDidLoad() {
+        print("进入页面")
         super.viewDidLoad()
         NotificationCenter.default.addObserver(self, selector: #selector(reloadList), name: NSNotification.Name(rawValue: "nomal"), object: nil)
         if UserDefaults.standard.object(forKey: "nomalMode") == nil {
             let arrayList = [String]()
-            print("success")
+            print("重置数据")
             UserDefaults.standard.set(arrayList, forKey: "nomalMode")
         }
         // Do any additional setup after loading the view, typically from a nib.
@@ -39,25 +40,7 @@ class leaderBoardController: UIViewController, UITableViewDataSource, UITableVie
      
      
      */
-    
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == UITableViewCellEditingStyle.delete {
-            
-            guard let arrayListObject = UserDefaults.standard.object(forKey: "nomalMode") else {
-                print("Error \(#line): Cannot access the user default array list")
-                return
-            }
-            
-            if var arrayList = arrayListObject as? Array<String> {
-                arrayList.remove(at: indexPath.row)
-                UserDefaults.standard.set(arrayList, forKey: "nomalMode")
-                
-                listTableView.reloadData()
-            }
-        }
-    }
-    
-    
+  
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
     
@@ -65,8 +48,9 @@ class leaderBoardController: UIViewController, UITableViewDataSource, UITableVie
                 print("Error \(#line): Cannot access the user default array list")
                 return 0
             }
-            
+        
             if let nomalList = nomalListObject as? Array<String> {
+                print(nomalList)
                 return nomalList.count
             } else {
                 print("Error \(#line): Cannot identify the array list as a string array")
@@ -99,9 +83,7 @@ class leaderBoardController: UIViewController, UITableViewDataSource, UITableVie
         }
         
         if var nomalList  = nomalListObject as? Array<String> {
-            nomalList.sort { (s1, s2) -> Bool in
-                return s1 > s2
-            }
+            nomalList.sort(by:>)
             cell.textLabel?.text = nomalList[indexPath.row]
             cell.textLabel?.font = UIFont(name:"Party LET", size:30)
             
