@@ -63,8 +63,9 @@ class Games: SKScene, SKPhysicsContactDelegate {
     
   
     
-    override init(size : CGSize) {
+     init(size : CGSize,name:String) {
         super.init(size: size)
+        playerName = name
         addNode()
     }
     
@@ -268,6 +269,7 @@ class Games: SKScene, SKPhysicsContactDelegate {
         // append the data
         arrayList.append(data)
         // save the data to user defaults
+        print(arrayList)
         UserDefaults.standard.set(arrayList, forKey: "nomalMode")
         // call the notification center
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "nomal"), object: nil)
@@ -280,7 +282,7 @@ class Games: SKScene, SKPhysicsContactDelegate {
     override func update(_ currentTime: TimeInterval) {
         for monster in monsterArray {
             if monster.frame.intersects(player.frame){
-                gameOver()
+                gameOver(resultScore: score)
             }
             for bullet in bulletArray {
                 if bullet.intersects(monster){
@@ -307,7 +309,7 @@ class Games: SKScene, SKPhysicsContactDelegate {
         
         if boss.parent != nil {
             if boss.frame.intersects(player.frame){
-                gameOver()
+                gameOver(resultScore: score)
             }
         }
         
@@ -362,11 +364,12 @@ class Games: SKScene, SKPhysicsContactDelegate {
         
     }
     
-    private func gameOver(){
+    
+    private func gameOver(resultScore:Int){
         saveData(data: playerName+":"+String(score))
         print("die,die,die")
+        let gameOverScene = GameOverScene(size: self.size,score:resultScore,playerResultName:playerName)
         let reveal = SKTransition.flipHorizontal(withDuration: 0.5)
-        let gameOverScene = GameOverScene(size: self.size, won: true)
         self.view?.presentScene(gameOverScene, transition: reveal)
         
     }

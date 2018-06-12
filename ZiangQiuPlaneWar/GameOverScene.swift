@@ -10,28 +10,41 @@ import SpriteKit
 
 class GameOverScene: SKScene {
     
-    init(size: CGSize, won:Bool) {
-        
+    var playerName = ""
+    
+    init(size: CGSize,score:Int,playerResultName:String) {
         super.init(size: size)
-        
-        // 1
+        playerName = playerResultName
         backgroundColor = SKColor.white
-        
-        // 2
-        let message = won ? "You Won!" : "You Lose"
-        
-        // 3
+        addscoreLb(score: score)
+        addTG()
+    }
+    
+    private func addscoreLb(score:Int) {
         let label = SKLabelNode(fontNamed: "Chalkduster")
-        label.text = message
+        label.text =  playerName + ":" + String(score)
         label.fontSize = 40
         label.fontColor = SKColor.black
         label.position = CGPoint(x: size.width/2, y: size.height/2)
         addChild(label)
-        
     }
+    
+    
+    private func addTG() {
+        let label = SKLabelNode(fontNamed: "Chalkduster")
+        label.text = "Tap to try again"
+        label.fontSize = 40
+        label.fontColor = SKColor.black
+        label.position = CGPoint(x: size.width/2, y: size.height/2 - 100)
+        addChild(label)
+    }
+    
+    
+    
+    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         let reveal = SKTransition.flipHorizontal(withDuration: 0.5)
-        let scene = Games(size: self.size)
+        let scene = Games(size: self.size,name:playerName)
         self.view?.presentScene(scene, transition:reveal)
     }
     // 6
