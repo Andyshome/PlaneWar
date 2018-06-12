@@ -17,17 +17,32 @@ class GameOverScene: SKScene {
         playerName = playerResultName
         backgroundColor = SKColor.white
         addscoreLb(score: score)
+        addNameLb()
         addTG()
     }
     
     private func addscoreLb(score:Int) {
         let label = SKLabelNode(fontNamed: "Chalkduster")
-        label.text =  playerName + ":" + String(score)
+        label.text = String(score)
         label.fontSize = 40
         label.fontColor = SKColor.black
         label.position = CGPoint(x: size.width/2, y: size.height/2)
         addChild(label)
     }
+    
+    
+    
+    private func addNameLb() {
+        let label = SKLabelNode(fontNamed: "Chalkduster")
+        label.text = "Name:"+playerName
+        label.fontSize = 40
+        label.fontColor = SKColor.black
+        label.position = CGPoint(x: size.width/2, y: size.height/2+100)
+        addChild(label)
+    }
+
+    
+    
     
     
     private func addTG() {

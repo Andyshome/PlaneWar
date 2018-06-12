@@ -366,7 +366,7 @@ class Games: SKScene, SKPhysicsContactDelegate {
     
     
     private func gameOver(resultScore:Int){
-        saveData(data: playerName+":"+String(score))
+        saveData(data: String(score) + ":" + playerName)
         print("die,die,die")
         let gameOverScene = GameOverScene(size: self.size,score:resultScore,playerResultName:playerName)
         let reveal = SKTransition.flipHorizontal(withDuration: 0.5)
