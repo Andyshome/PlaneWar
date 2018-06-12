@@ -23,11 +23,14 @@ class Games: SKScene, SKPhysicsContactDelegate {
     var playerName = ""
     var totalMonster = 0
     var supplyNode = SKSpriteNode.init(imageNamed: "supply")
+    var boss = SKSpriteNode.init(imageNamed: "boss")
+    var bossHp = 30
     private var shouldMove = false
     lazy var shootSoundAction = { () -> SKAction in
         let action = SKAction.playSoundFileNamed("shoot.mp3", waitForCompletion: false)
         return action
     }()
+    var timeMonster = 0.6
     private func addScoreLb() {
         scorLb = SKLabelNode.init(fontNamed: "Chalkduster")
         scorLb?.text = "0"
@@ -86,7 +89,7 @@ class Games: SKScene, SKPhysicsContactDelegate {
         let addMonsterAction = SKAction.run {
             wkself?.getMonster()
         }
-        let waitAction = SKAction.wait(forDuration: 0.2)
+        let waitAction = SKAction.wait(forDuration: 0.3)
         let sequence = SKAction.sequence([addMonsterAction,waitAction])
         let repeatAction = SKAction.repeatForever(sequence)
         run(repeatAction)
@@ -96,6 +99,7 @@ class Games: SKScene, SKPhysicsContactDelegate {
     
     private func getMonster(){
         addSupply()
+        addBoss()
         weak var wkself = self
         let minimumDuration:Int = 4
         let maximumDuration:Int = 5
@@ -123,7 +127,7 @@ class Games: SKScene, SKPhysicsContactDelegate {
     }
     
     private func addSupply(){
-        if arc4random_uniform(100) < 10 {
+        if arc4random_uniform(100) < 96 {
             return
         }
         if supplyNode.parent != nil {
@@ -189,6 +193,34 @@ class Games: SKScene, SKPhysicsContactDelegate {
         let repeatShootAction = SKAction.repeatForever(sequenceAction)
         run(repeatShootAction)
     }
+    
+    private func addBoss(){
+        if score < 100 {
+            return
+        }
+        if arc4random_uniform(100) < 50 {
+            return
+        }
+        if boss.parent != nil {
+            return
+        }
+        boss.size = .init(width:200,height:400)
+        bossHp = 10
+        let bossx = CGFloat(arc4random_uniform(UInt32(size.width - boss.size.width))) + boss.size.width/2
+        boss.removeAllActions()
+        boss.position = .init(x: bossx, y: size.height + size.height + boss.size.height/2)
+        boss.zPosition = 12
+        addChild(boss)
+        let move = SKAction.moveTo(y: -boss.size.height/2, duration: TimeInterval(6.5))
+        boss.run(move, completion: {
+            self.boss.removeFromParent()
+        })
+    }
+    
+    
+    
+    
+    
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         let touch = touches.first!
@@ -273,10 +305,25 @@ class Games: SKScene, SKPhysicsContactDelegate {
             
         }
         
+        if boss.parent != nil {
+            if boss.frame.intersects(player.frame){
+                gameOver()
+            }
+        }
+        
+        
+        
+        
+        
         
         if supplyNode.parent != nil {
             if supplyNode.frame.intersects(player.frame){
                 supplyNode.removeFromParent()
+                if boss.parent != nil {
+                    boss.removeFromParent()
+                    score += 20
+                    scorLb?.text = String(score)
+                }
                 if monsterArray.count > 0 {
                     monsterArray.forEach{
                         score += 1
@@ -288,6 +335,27 @@ class Games: SKScene, SKPhysicsContactDelegate {
             }
         }
         
+        
+        for bullet in bulletArray {
+            if bullet.frame.intersects(boss.frame){
+                if bossHp == 0 {
+                    boss.removeFromParent()
+                    bullet.removeFromParent()
+                    score += 20
+                    scorLb?.text = String(score)
+                } else {
+                    bossHp -= 1
+                    bullet.removeFromParent()
+                }
+                
+                let index = bulletArray.index(of:bullet)
+                if index != nil {
+                    bulletArray.remove(at: index!)
+                }
+            }
+        }
+        
+        timeMonster = timeMonster * 0.9
         
         
         
