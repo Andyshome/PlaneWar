@@ -11,7 +11,6 @@ import SpriteKit
 class GameOverScene: SKScene {
     
     var playerName = ""
-    
     init(size: CGSize,score:Int,playerResultName:String) {
         super.init(size: size)
         playerName = playerResultName
@@ -19,7 +18,10 @@ class GameOverScene: SKScene {
         addscoreLb(score: score)
         addNameLb()
         addTG()
+  
     }
+    
+   
     
     private func addscoreLb(score:Int) {
         let label = SKLabelNode(fontNamed: "Chalkduster")
@@ -56,8 +58,10 @@ class GameOverScene: SKScene {
     
     
     
-    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        
+        
+        
         let reveal = SKTransition.flipHorizontal(withDuration: 0.5)
         let scene = Games(size: self.size,name:playerName)
         self.view?.presentScene(scene, transition:reveal)

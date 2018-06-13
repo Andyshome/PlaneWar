@@ -9,10 +9,8 @@
 import SpriteKit
 import AVFoundation
 
-
 class Games: SKScene, SKPhysicsContactDelegate {
     // 1
-    
     
     var monsterArray : [SKSpriteNode] = [SKSpriteNode]()
     var bulletArray : [SKSpriteNode] = [SKSpriteNode]()
@@ -61,8 +59,7 @@ class Games: SKScene, SKPhysicsContactDelegate {
         addChild(bgNode)
     }
     
-  
-    
+
      init(size : CGSize,name:String) {
         super.init(size: size)
         playerName = name
@@ -83,6 +80,14 @@ class Games: SKScene, SKPhysicsContactDelegate {
         addName()
         addMonster()
     }
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     private func addMonster(){
@@ -371,7 +376,6 @@ class Games: SKScene, SKPhysicsContactDelegate {
         let gameOverScene = GameOverScene(size: self.size,score:resultScore,playerResultName:playerName)
         let reveal = SKTransition.flipHorizontal(withDuration: 0.5)
         self.view?.presentScene(gameOverScene, transition: reveal)
-        
     }
     
     

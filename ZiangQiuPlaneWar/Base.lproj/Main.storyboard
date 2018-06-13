@@ -64,7 +64,7 @@
         <!--Main View Controller-->
         <scene sceneID="sjJ-Hd-3eF">
             <objects>
-                <viewController id="An5-Is-Sfa" customClass="mainViewController" customModule="ZiangQiuPlaneWar" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MainMenu" id="An5-Is-Sfa" customClass="mainViewController" customModule="ZiangQiuPlaneWar" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="dAh-yp-lXM">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -176,17 +176,6 @@
                     <view key="view" multipleTouchEnabled="YES" contentMode="scaleToFill" id="3se-qz-xqx" customClass="SKView">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" adjustsImageSizeForAccessibilityContentSizeCategory="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6pP-mA-7wr">
-                                <rect key="frame" x="331" y="23" width="30" height="32"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="17"/>
-                                <state key="normal" title="Exit"/>
-                                <connections>
-                                    <segue destination="An5-Is-Sfa" kind="show" id="1ie-t7-iRH"/>
-                                </connections>
-                            </button>
-                        </subviews>
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <viewLayoutGuide key="safeArea" id="4qk-I5-YsI"/>
                     </view>
@@ -203,7 +192,4 @@
         <image name="cooltext289635824080592" width="374" height="63"/>
         <image name="night-sky-sunset-pink-nature-iphone-8-plus-wallpaper-ilikewallpaper_com" width="1080" height="1920"/>
     </resources>
-    <inferredMetricsTieBreakers>
-        <segue reference="1Cu-4D-XvG"/>
-    </inferredMetricsTieBreakers>
 </document>
