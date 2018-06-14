@@ -19,7 +19,7 @@ class NameViewController: UIViewController {
         // test
         print(nameText.text!)
         // perform segue
-        
+    
     }
     // send the data
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -30,7 +30,7 @@ class NameViewController: UIViewController {
         
         // send the data
         send?.playerName=self.nameText.text!
-        
+        send?.shouldPlay = true
     }
     
 

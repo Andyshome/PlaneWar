@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		54BB3A8920C999CC00CE33DA /* NameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54BB3A8820C999CC00CE33DA /* NameViewController.swift */; };
 		FE47F9C220CC7F6B008B4052 /* GameOverScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE47F9C120CC7F6B008B4052 /* GameOverScene.swift */; };
-		FE47F9C420CC7F75008B4052 /* GameOverScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = FE47F9C320CC7F74008B4052 /* GameOverScene.sks */; };
 		FE47F9C620CC878E008B4052 /* shoot.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = FE47F9C520CC878E008B4052 /* shoot.mp3 */; };
 		FE92762320C89A23006B05F5 /* bgm.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = FE92762220C89A23006B05F5 /* bgm.mp3 */; };
 		FECE3AF420C8F3CD001D02FE /* mainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FECE3AF320C8F3CD001D02FE /* mainViewController.swift */; };
@@ -25,7 +24,6 @@
 /* Begin PBXFileReference section */
 		54BB3A8820C999CC00CE33DA /* NameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameViewController.swift; sourceTree = "<group>"; };
 		FE47F9C120CC7F6B008B4052 /* GameOverScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameOverScene.swift; sourceTree = "<group>"; };
-		FE47F9C320CC7F74008B4052 /* GameOverScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameOverScene.sks; sourceTree = "<group>"; };
 		FE47F9C520CC878E008B4052 /* shoot.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = shoot.mp3; sourceTree = "<group>"; };
 		FE92762220C89A23006B05F5 /* bgm.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = bgm.mp3; sourceTree = "<group>"; };
 		FECE3AF320C8F3CD001D02FE /* mainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mainViewController.swift; sourceTree = "<group>"; };
@@ -73,7 +71,6 @@
 				FED5005D20C7ABE900C4DE43 /* AppDelegate.swift */,
 				FE92762220C89A23006B05F5 /* bgm.mp3 */,
 				FECE3AF320C8F3CD001D02FE /* mainViewController.swift */,
-				FE47F9C320CC7F74008B4052 /* GameOverScene.sks */,
 				FE47F9C520CC878E008B4052 /* shoot.mp3 */,
 				FED5006520C7ABE900C4DE43 /* GameViewController.swift */,
 				54BB3A8820C999CC00CE33DA /* NameViewController.swift */,
@@ -149,7 +146,6 @@
 				FED5006920C7ABE900C4DE43 /* Main.storyboard in Resources */,
 				FED5006B20C7ABEA00C4DE43 /* Assets.xcassets in Resources */,
 				FED5006E20C7ABEA00C4DE43 /* LaunchScreen.storyboard in Resources */,
-				FE47F9C420CC7F75008B4052 /* GameOverScene.sks in Resources */,
 				FE47F9C620CC878E008B4052 /* shoot.mp3 in Resources */,
 				FE92762320C89A23006B05F5 /* bgm.mp3 in Resources */,
 			);

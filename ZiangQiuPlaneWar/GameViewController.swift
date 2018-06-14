@@ -11,24 +11,35 @@ import GameplayKit
 import AVFoundation
 
 class GameViewController: UIViewController {
-    
-    
+    var shouldPlay = false
     var playerName = ""
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        if let view = self.view as! SKView? {
-            // Load the SKScene from 'GameScene.sks'
-            let scene = Games(size: view.bounds.size,name:playerName)
-            // Set the scale mode to scale to fit the window
-            scene.scaleMode = .resizeFill
-            // Present the scene
-            view.ignoresSiblingOrder = true
-            view.showsFPS = true
-            view.showsNodeCount = true
-            view.presentScene(scene)
+        if shouldPlay == true{
+            if let view = self.view as! SKView? {
+                // Load the SKScene from 'GameScene.sks'
+                let scene = Games(size: view.bounds.size,name:playerName)
+                // Set the scale mode to scale to fit the window
+                scene.scaleMode = .resizeFill
+                // Present the scene
+                view.ignoresSiblingOrder = true
+                view.showsFPS = true
+                view.showsNodeCount = true
+                view.presentScene(scene)
+                shouldPlay = false
+            }
         }
+        NotificationCenter.default.addObserver(self, selector: #selector(GameViewController.doaSegue), name: NSNotification.Name(rawValue: "doaSegue"), object: nil)
+    }
+    
+    
+    
+    @objc func doaSegue(){
+        performSegue(withIdentifier: "exit", sender: self)
+        self.view.removeFromSuperview()
+        self.view = nil
     }
     
     override var shouldAutorotate: Bool {

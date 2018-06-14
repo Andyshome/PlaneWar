@@ -22,7 +22,7 @@
                                 <rect key="frame" x="0.0" y="39" width="375" height="628"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="leaderBoardCell" id="mxw-PX-XMN">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="leaderBoardCell" id="mxw-PX-XMN">
                                         <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="mxw-PX-XMN" id="qhk-pE-0wi">
@@ -35,10 +35,9 @@
                                     <outlet property="dataSource" destination="oMQ-4U-Hiq" id="NXx-DV-Y3b"/>
                                 </connections>
                             </tableView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xEi-Zy-jgf">
-                                <rect key="frame" x="294" y="20" width="30" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Exit"/>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xEi-Zy-jgf">
+                                <rect key="frame" x="259" y="24" width="58" height="34"/>
+                                <state key="normal" title="Exit" image="exit"/>
                                 <connections>
                                     <segue destination="An5-Is-Sfa" kind="show" id="1Cu-4D-XvG"/>
                                 </connections>
@@ -47,8 +46,11 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="LPC-xf-m8p" firstAttribute="leading" secondItem="zoP-U7-blK" secondAttribute="leading" id="4GX-q2-DRJ"/>
+                            <constraint firstItem="zoP-U7-blK" firstAttribute="trailing" secondItem="xEi-Zy-jgf" secondAttribute="trailing" constant="58" id="6op-zp-5my"/>
                             <constraint firstItem="LPC-xf-m8p" firstAttribute="bottom" secondItem="zoP-U7-blK" secondAttribute="bottom" id="Z2D-lL-wU1"/>
+                            <constraint firstItem="xEi-Zy-jgf" firstAttribute="top" secondItem="zoP-U7-blK" secondAttribute="top" constant="4" id="aT6-XS-Ztc"/>
                             <constraint firstItem="LPC-xf-m8p" firstAttribute="top" secondItem="zoP-U7-blK" secondAttribute="top" constant="19" id="n7V-8W-kOn"/>
+                            <constraint firstItem="xEi-Zy-jgf" firstAttribute="leading" secondItem="zoP-U7-blK" secondAttribute="leading" constant="259" id="rFP-Im-c2v"/>
                             <constraint firstItem="LPC-xf-m8p" firstAttribute="trailing" secondItem="zoP-U7-blK" secondAttribute="trailing" id="w0m-Nl-PWR"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="zoP-U7-blK"/>
@@ -59,7 +61,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JoI-wf-HEa" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1447.8260869565217" y="85.59782608695653"/>
+            <point key="canvasLocation" x="-1448.8" y="85.007496251874073"/>
         </scene>
         <!--Main View Controller-->
         <scene sceneID="sjJ-Hd-3eF">
@@ -179,6 +181,9 @@
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <viewLayoutGuide key="safeArea" id="4qk-I5-YsI"/>
                     </view>
+                    <connections>
+                        <segue destination="An5-Is-Sfa" kind="show" identifier="exit" id="UZS-YT-5kC"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SZV-WD-TEh" sceneMemberID="firstResponder"/>
             </objects>
@@ -190,6 +195,10 @@
         <image name="cooltext289635749298659" width="388" height="87"/>
         <image name="cooltext289635803029655" width="507" height="62"/>
         <image name="cooltext289635824080592" width="374" height="63"/>
+        <image name="exit" width="299" height="144"/>
         <image name="night-sky-sunset-pink-nature-iphone-8-plus-wallpaper-ilikewallpaper_com" width="1080" height="1920"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="UZS-YT-5kC"/>
+    </inferredMetricsTieBreakers>
 </document>

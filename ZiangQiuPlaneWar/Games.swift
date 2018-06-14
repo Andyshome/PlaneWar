@@ -11,7 +11,6 @@ import AVFoundation
 
 class Games: SKScene, SKPhysicsContactDelegate {
     // 1
-    
     var monsterArray : [SKSpriteNode] = [SKSpriteNode]()
     var bulletArray : [SKSpriteNode] = [SKSpriteNode]()
     let player = SKSpriteNode.init(imageNamed: "Spaceship")
@@ -83,9 +82,7 @@ class Games: SKScene, SKPhysicsContactDelegate {
     
     
     
-    
-    
-    
+
     
     
     
@@ -373,9 +370,23 @@ class Games: SKScene, SKPhysicsContactDelegate {
     private func gameOver(resultScore:Int){
         saveData(data: String(score) + ":" + playerName)
         print("die,die,die")
-        let gameOverScene = GameOverScene(size: self.size,score:resultScore,playerResultName:playerName)
-        let reveal = SKTransition.flipHorizontal(withDuration: 0.5)
-        self.view?.presentScene(gameOverScene, transition: reveal)
+        if let view = self.view {
+            // Load the SKScene from 'GameScene.sks'
+            let scene = GameOverScene(size: self.size,score:resultScore,playerResultName:playerName)
+            // Set the scale mode to scale to fit the window
+            scene.scaleMode = .resizeFill
+            // Present the scene
+            view.ignoresSiblingOrder = true
+            view.showsFPS = true
+            view.showsNodeCount = true
+            view.presentScene(scene)
+        }
+    for bullet in bulletArray {
+        bullet.removeAllActions()
+    }
+    bulletArray.removeAll()
+    player.removeAllActions()
+    self.scene?.isPaused = true
     }
     
     

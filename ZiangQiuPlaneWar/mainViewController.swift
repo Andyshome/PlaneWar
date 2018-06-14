@@ -14,6 +14,7 @@ class mainViewController: UIViewController {
     
     static var playing = false
     
+    
     lazy var backGroundMusic : AVAudioPlayer? = {
         guard let url = Bundle.main.url(forResource: "bgm", withExtension: "mp3") else {
             print("sound fail")

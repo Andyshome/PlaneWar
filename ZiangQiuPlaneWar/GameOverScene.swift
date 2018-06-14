@@ -49,7 +49,7 @@ class GameOverScene: SKScene {
     
     private func addTG() {
         let label = SKLabelNode(fontNamed: "Chalkduster")
-        label.text = "Tap to try again"
+        label.text = "Tap to exit"
         label.fontSize = 40
         label.fontColor = SKColor.black
         label.position = CGPoint(x: size.width/2, y: size.height/2 - 100)
@@ -60,11 +60,7 @@ class GameOverScene: SKScene {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         
-        
-        
-        let reveal = SKTransition.flipHorizontal(withDuration: 0.5)
-        let scene = Games(size: self.size,name:playerName)
-        self.view?.presentScene(scene, transition:reveal)
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "doaSegue"), object: nil)
     }
     // 6
     required init(coder aDecoder: NSCoder) {
