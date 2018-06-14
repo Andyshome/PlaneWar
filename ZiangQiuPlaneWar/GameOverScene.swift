@@ -9,7 +9,7 @@
 import SpriteKit
 
 class GameOverScene: SKScene {
-    
+    //get playername
     var playerName = ""
     init(size: CGSize,score:Int,playerResultName:String) {
         super.init(size: size)
@@ -22,7 +22,7 @@ class GameOverScene: SKScene {
     }
     
    
-    
+    //set your score lb
     private func addscoreLb(score:Int) {
         let label = SKLabelNode(fontNamed: "Chalkduster")
         label.text = String(score)
@@ -32,7 +32,7 @@ class GameOverScene: SKScene {
         addChild(label)
     }
     
-    
+    //set your name lb
     
     private func addNameLb() {
         let label = SKLabelNode(fontNamed: "Chalkduster")
@@ -45,7 +45,7 @@ class GameOverScene: SKScene {
 
     
     
-    
+    //set the tip node , you can tap to exit
     
     private func addTG() {
         let label = SKLabelNode(fontNamed: "Chalkduster")

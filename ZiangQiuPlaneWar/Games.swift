@@ -10,10 +10,12 @@ import SpriteKit
 import AVFoundation
 
 class Games: SKScene, SKPhysicsContactDelegate {
-    // 1
+    // set up array of these nodes
     var monsterArray : [SKSpriteNode] = [SKSpriteNode]()
     var bulletArray : [SKSpriteNode] = [SKSpriteNode]()
+    //create a player
     let player = SKSpriteNode.init(imageNamed: "Spaceship")
+    //create general node and score variable
     var score = 0
     var scorLb:SKLabelNode?
     var nameLb:SKLabelNode?
@@ -21,13 +23,17 @@ class Games: SKScene, SKPhysicsContactDelegate {
     var totalMonster = 0
     var supplyNode = SKSpriteNode.init(imageNamed: "supply")
     var boss = SKSpriteNode.init(imageNamed: "boss")
-    var bossHp = 30
+    //set the boss hp
+    var bossHp = 10
+    // determine the plane could move or not
     private var shouldMove = false
+    // play sound
     lazy var shootSoundAction = { () -> SKAction in
         let action = SKAction.playSoundFileNamed("shoot.mp3", waitForCompletion: false)
         return action
     }()
-    var timeMonster = 0.6
+
+    //add scorelb node
     private func addScoreLb() {
         scorLb = SKLabelNode.init(fontNamed: "Chalkduster")
         scorLb?.text = "0"
@@ -37,7 +43,7 @@ class Games: SKScene, SKPhysicsContactDelegate {
         scorLb?.position = .init(x: 50, y: size.height - 80)
         addChild(scorLb!)
     }
-    
+    // add name node
     private func addName() {
         nameLb = SKLabelNode.init(fontNamed: "Helvetica")
         nameLb?.text = playerName
@@ -48,7 +54,7 @@ class Games: SKScene, SKPhysicsContactDelegate {
         nameLb?.position = .init(x: 50, y: size.height - 40)
         addChild(nameLb!)
     }
-    
+    //ad background node
     private func addBg() {
         let bgNode = SKSpriteNode.init(imageNamed: "bg_01")
         bgNode.position = .zero
@@ -57,20 +63,19 @@ class Games: SKScene, SKPhysicsContactDelegate {
         bgNode.size = size
         addChild(bgNode)
     }
-    
-
+    //set up basic things when the game starts
      init(size : CGSize,name:String) {
         super.init(size: size)
         playerName = name
         addNode()
     }
-    
+    //default
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
     
-    
+    //add node function
     
     private func addNode(){
         addHero()
@@ -86,36 +91,43 @@ class Games: SKScene, SKPhysicsContactDelegate {
     
     
     
-    
+    // add monster forever
     private func addMonster(){
         weak var wkself = self
         let addMonsterAction = SKAction.run {
             wkself?.getMonster()
         }
-        let waitAction = SKAction.wait(forDuration: 0.3)
+        let waitAction = SKAction.wait(forDuration: 0.2)
         let sequence = SKAction.sequence([addMonsterAction,waitAction])
         let repeatAction = SKAction.repeatForever(sequence)
         run(repeatAction)
         
         
     }
-    
+    // get monster to the add monster function to add
     private func getMonster(){
         addSupply()
         addBoss()
+        // set different speeed for different monster
         weak var wkself = self
         let minimumDuration:Int = 4
         let maximumDuration:Int = 5
+        // random get a  duration
         let duration = Int(arc4random_uniform((UInt32(maximumDuration - minimumDuration)))) + minimumDuration
+        // set up a monster
         let monster = SKSpriteNode.init(imageNamed: "enemy-1")
+        // before background
         monster.zPosition = 13
+        // set x
         let minx:Int = Int(monster.size.width / 2)
         let maxx:Int = Int(size.width - monster.size.width / 2)
         let gapx:Int = maxx - minx
         let xpos:Int = Int(arc4random_uniform(UInt32(gapx))) + minx
         monster.position = .init(x: CGFloat(xpos), y: (size.height + monster.size.height/2))
         addChild(monster)
+        // find out how much total monster we set up
         totalMonster += 1
+        // add this data to monster array
         monsterArray.append(monster)
         let move = SKAction.moveTo(y: -monster.size.height/2, duration: TimeInterval(duration))
         let remove = SKAction.run {
@@ -125,22 +137,27 @@ class Games: SKScene, SKPhysicsContactDelegate {
                 wkself?.monsterArray.remove(at: index!)
             }
         }
+        //run the monster
         
         monster.run(SKAction.sequence([move,remove]))
     }
-    
+    // add supply if you need
     private func addSupply(){
-        if arc4random_uniform(100) < 96 {
+        //random chance to add a supply
+        if arc4random_uniform(100) < 98 {
             return
         }
+        // prevent there are two bossese in this screne
         if supplyNode.parent != nil {
             return
         }
+        // set the place of the supply
         let supplyx = CGFloat(arc4random_uniform(UInt32(size.width - supplyNode.size.width))) + supplyNode.size.width/2
         supplyNode.zPosition = 14
         supplyNode.removeAllActions()
         supplyNode.position = .init(x: supplyx, y: size.height + size.height + supplyNode.size.height/2)
         addChild(supplyNode)
+        // run it
         let move = SKAction.moveTo(y: -supplyNode.size.height/2, duration: TimeInterval(5))
         supplyNode.run(move, completion: {
             self.supplyNode.removeFromParent()
@@ -148,23 +165,16 @@ class Games: SKScene, SKPhysicsContactDelegate {
     }
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
+    // shoot function
     
     private func shoot() {
         
-        
+        // get a bullet node
         let bulletNode = SKSpriteNode.init(imageNamed: "bullet-1")
         bulletNode.position = player.position
         addChild(bulletNode)
         bulletArray.append(bulletNode)
+        // prevent it behind the background
         bulletNode.zPosition = 14
         let distence = size.height - bulletNode.position.y
         let speed = size.height
@@ -181,6 +191,7 @@ class Games: SKScene, SKPhysicsContactDelegate {
             }
         })
     }
+    // add a player node in this game.
     private func addHero(){
         player.size = .init(width: 40, height: 40)
         player.position = .init(x: size.width/2, y:player.size.height/2)
@@ -197,8 +208,10 @@ class Games: SKScene, SKPhysicsContactDelegate {
         run(repeatShootAction)
     }
     
+    
+    //add boss in this game, score smaller than 50 boss would not come, there would not be 2 boss at same time
     private func addBoss(){
-        if score < 100 {
+        if score < 50 {
             return
         }
         if arc4random_uniform(100) < 50 {
@@ -224,7 +237,7 @@ class Games: SKScene, SKPhysicsContactDelegate {
     
     
     
-    
+    // touch first place to control the game
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         let touch = touches.first!
         let location = touch.location(in: self)
@@ -236,6 +249,8 @@ class Games: SKScene, SKPhysicsContactDelegate {
             shouldMove = true
         }
     }
+    
+    //plane follow your finger's position
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard  shouldMove else {
             return
@@ -282,6 +297,15 @@ class Games: SKScene, SKPhysicsContactDelegate {
     
     
     override func update(_ currentTime: TimeInterval) {
+        
+        
+        
+        
+        
+        
+        // if bullet hit small plane, it dies
+        //if monster hit you, you die
+        
         for monster in monsterArray {
             if monster.frame.intersects(player.frame){
                 gameOver(resultScore: score)
@@ -308,7 +332,7 @@ class Games: SKScene, SKPhysicsContactDelegate {
             
             
         }
-        
+        //if boss hit you , you loss
         if boss.parent != nil {
             if boss.frame.intersects(player.frame){
                 gameOver(resultScore: score)
@@ -319,15 +343,17 @@ class Games: SKScene, SKPhysicsContactDelegate {
         
         
         
-        
+        //get supply
         if supplyNode.parent != nil {
             if supplyNode.frame.intersects(player.frame){
+                //remove it
                 supplyNode.removeFromParent()
                 if boss.parent != nil {
                     boss.removeFromParent()
                     score += 20
                     scorLb?.text = String(score)
                 }
+                // kill all the node
                 if monsterArray.count > 0 {
                     monsterArray.forEach{
                         score += 1
@@ -339,14 +365,18 @@ class Games: SKScene, SKPhysicsContactDelegate {
             }
         }
         
-        
+        //set up the bullet in this array
         for bullet in bulletArray {
+            // if they touch boss loss hp
             if bullet.frame.intersects(boss.frame){
                 if bossHp == 0 {
+                    boss.removeAllActions()
                     boss.removeFromParent()
                     bullet.removeFromParent()
+                    // 20 score for one boss
                     score += 20
                     scorLb?.text = String(score)
+                    bossHp = 10
                 } else {
                     bossHp -= 1
                     bullet.removeFromParent()
@@ -359,13 +389,12 @@ class Games: SKScene, SKPhysicsContactDelegate {
             }
         }
         
-        timeMonster = timeMonster * 0.9
         
         
         
         
     }
-    
+    // game over function
     
     private func gameOver(resultScore:Int){
         saveData(data: String(score) + ":" + playerName)
@@ -381,12 +410,16 @@ class Games: SKScene, SKPhysicsContactDelegate {
             view.showsNodeCount = true
             view.presentScene(scene)
         }
-    for bullet in bulletArray {
-        bullet.removeAllActions()
-    }
-    bulletArray.removeAll()
-    player.removeAllActions()
-    self.scene?.isPaused = true
+        // remove sound
+        for bullet in bulletArray {
+            bullet.removeAllActions()
+        }
+            //remove action
+        bulletArray.removeAll()
+        // remove player
+        player.removeAllActions()
+        //pause the scene
+        self.scene?.isPaused = true
     }
     
     

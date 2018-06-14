@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="An5-Is-Sfa">
-    <device id="retina4_7" orientation="portrait">
+    <device id="retina5_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
@@ -15,18 +15,18 @@
             <objects>
                 <viewController id="oMQ-4U-Hiq" customClass="leaderBoardController" customModule="ZiangQiuPlaneWar" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="jPi-EO-HJr">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="LPC-xf-m8p">
-                                <rect key="frame" x="0.0" y="39" width="375" height="628"/>
+                                <rect key="frame" x="0.0" y="71" width="414" height="665"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="leaderBoardCell" id="mxw-PX-XMN">
-                                        <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="28" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="mxw-PX-XMN" id="qhk-pE-0wi">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.666666666666664"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -35,8 +35,11 @@
                                     <outlet property="dataSource" destination="oMQ-4U-Hiq" id="NXx-DV-Y3b"/>
                                 </connections>
                             </tableView>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xEi-Zy-jgf">
-                                <rect key="frame" x="259" y="24" width="58" height="34"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xEi-Zy-jgf">
+                                <rect key="frame" x="279" y="29" width="97" height="34"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="34" id="ZlS-u6-iuj"/>
+                                </constraints>
                                 <state key="normal" title="Exit" image="exit"/>
                                 <connections>
                                     <segue destination="An5-Is-Sfa" kind="show" id="1Cu-4D-XvG"/>
@@ -45,13 +48,13 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="LPC-xf-m8p" firstAttribute="leading" secondItem="zoP-U7-blK" secondAttribute="leading" id="4GX-q2-DRJ"/>
-                            <constraint firstItem="zoP-U7-blK" firstAttribute="trailing" secondItem="xEi-Zy-jgf" secondAttribute="trailing" constant="58" id="6op-zp-5my"/>
-                            <constraint firstItem="LPC-xf-m8p" firstAttribute="bottom" secondItem="zoP-U7-blK" secondAttribute="bottom" id="Z2D-lL-wU1"/>
-                            <constraint firstItem="xEi-Zy-jgf" firstAttribute="top" secondItem="zoP-U7-blK" secondAttribute="top" constant="4" id="aT6-XS-Ztc"/>
-                            <constraint firstItem="LPC-xf-m8p" firstAttribute="top" secondItem="zoP-U7-blK" secondAttribute="top" constant="19" id="n7V-8W-kOn"/>
-                            <constraint firstItem="xEi-Zy-jgf" firstAttribute="leading" secondItem="zoP-U7-blK" secondAttribute="leading" constant="259" id="rFP-Im-c2v"/>
-                            <constraint firstItem="LPC-xf-m8p" firstAttribute="trailing" secondItem="zoP-U7-blK" secondAttribute="trailing" id="w0m-Nl-PWR"/>
+                            <constraint firstItem="LPC-xf-m8p" firstAttribute="top" secondItem="xEi-Zy-jgf" secondAttribute="bottom" constant="8" id="0VW-g3-Zlq"/>
+                            <constraint firstItem="xEi-Zy-jgf" firstAttribute="top" secondItem="zoP-U7-blK" secondAttribute="top" constant="9" id="Af4-Pe-sqc"/>
+                            <constraint firstItem="LPC-xf-m8p" firstAttribute="trailing" secondItem="zoP-U7-blK" secondAttribute="trailing" id="GpN-a6-glT"/>
+                            <constraint firstItem="LPC-xf-m8p" firstAttribute="leading" secondItem="zoP-U7-blK" secondAttribute="leading" id="eY1-wO-LLR"/>
+                            <constraint firstItem="LPC-xf-m8p" firstAttribute="bottom" secondItem="zoP-U7-blK" secondAttribute="bottom" id="iU9-xI-pqd"/>
+                            <constraint firstItem="xEi-Zy-jgf" firstAttribute="leading" secondItem="zoP-U7-blK" secondAttribute="leading" constant="279" id="paQ-fX-E42"/>
+                            <constraint firstItem="zoP-U7-blK" firstAttribute="trailing" secondItem="xEi-Zy-jgf" secondAttribute="trailing" constant="38" id="qXE-IT-jFy"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="zoP-U7-blK"/>
                     </view>
@@ -68,24 +71,24 @@
             <objects>
                 <viewController storyboardIdentifier="MainMenu" id="An5-Is-Sfa" customClass="mainViewController" customModule="ZiangQiuPlaneWar" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="dAh-yp-lXM">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="7499fc5196f495a4b5ea77d9c13c2328" translatesAutoresizingMaskIntoConstraints="NO" id="QDC-ZH-8Zo">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eaq-D8-XaB">
-                                <rect key="frame" x="54" y="393" width="266" height="63"/>
+                                <rect key="frame" x="54" y="462" width="305" height="63"/>
                                 <state key="normal" image="cooltext289635824080592"/>
                                 <connections>
                                     <segue destination="30k-iQ-Jiy" kind="show" id="Nwq-mc-av1"/>
                                 </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cooltext289635749298659" translatesAutoresizingMaskIntoConstraints="NO" id="DB7-Xx-i3Q">
-                                <rect key="frame" x="41" y="82" width="292" height="87"/>
+                                <rect key="frame" x="41" y="82" width="331" height="87"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lve-cJ-HeA">
-                                <rect key="frame" x="54" y="477" width="266" height="62"/>
+                                <rect key="frame" x="54" y="546" width="305" height="62"/>
                                 <state key="normal" image="cooltext289635803029655"/>
                                 <connections>
                                     <segue destination="oMQ-4U-Hiq" kind="show" id="dG6-Wa-rJ3"/>
@@ -122,14 +125,14 @@
             <objects>
                 <viewController id="30k-iQ-Jiy" customClass="NameViewController" customModule="ZiangQiuPlaneWar" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="kJW-IO-QN1">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="night-sky-sunset-pink-nature-iphone-8-plus-wallpaper-ilikewallpaper_com" translatesAutoresizingMaskIntoConstraints="NO" id="Y2b-D0-ZQC">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                             </imageView>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Your Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="eJU-ey-qqM">
-                                <rect key="frame" x="139" y="291" width="97" height="30"/>
+                                <rect key="frame" x="139" y="291" width="136" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="Udx-m4-lsq"/>
                                 </constraints>
@@ -138,7 +141,7 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="U3O-aK-AV1">
-                                <rect key="frame" x="77" y="350" width="220" height="44"/>
+                                <rect key="frame" x="77" y="350" width="259" height="113"/>
                                 <state key="normal" image="cooltext289635824080592"/>
                                 <connections>
                                     <action selector="startAction:" destination="30k-iQ-Jiy" eventType="touchUpInside" id="NCz-PU-Fya"/>
@@ -176,7 +179,7 @@
             <objects>
                 <viewController id="BV1-FR-VrT" customClass="GameViewController" customModule="ZiangQiuPlaneWar" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" multipleTouchEnabled="YES" contentMode="scaleToFill" id="3se-qz-xqx" customClass="SKView">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <viewLayoutGuide key="safeArea" id="4qk-I5-YsI"/>
@@ -199,6 +202,6 @@
         <image name="night-sky-sunset-pink-nature-iphone-8-plus-wallpaper-ilikewallpaper_com" width="1080" height="1920"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="UZS-YT-5kC"/>
+        <segue reference="1Cu-4D-XvG"/>
     </inferredMetricsTieBreakers>
 </document>

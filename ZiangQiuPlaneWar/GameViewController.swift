@@ -11,6 +11,10 @@ import GameplayKit
 import AVFoundation
 
 class GameViewController: UIViewController {
+  
+    
+    //prevent reload the scene then you play again, it works several times , so you could only start this game in name view controller/
+    
     var shouldPlay = false
     var playerName = ""
     
@@ -35,13 +39,13 @@ class GameViewController: UIViewController {
     }
     
     
-    
+    //set the exit function
     @objc func doaSegue(){
         performSegue(withIdentifier: "exit", sender: self)
         self.view.removeFromSuperview()
         self.view = nil
     }
-    
+    // set up
     override var shouldAutorotate: Bool {
         return true
     }

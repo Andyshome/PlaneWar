@@ -14,7 +14,7 @@ class mainViewController: UIViewController {
     
     static var playing = false
     
-    
+    // set up a sound player
     lazy var backGroundMusic : AVAudioPlayer? = {
         guard let url = Bundle.main.url(forResource: "bgm", withExtension: "mp3") else {
             print("sound fail")
@@ -40,7 +40,7 @@ class mainViewController: UIViewController {
             print("success")
             UserDefaults.standard.set(arrayList, forKey: "nomalMode")
         }
-        
+        //prevent reload data the sound plays again.
         if mainViewController.playing == false {
         backGroundMusic?.play()
         }

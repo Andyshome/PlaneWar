@@ -33,5 +33,8 @@ class NameViewController: UIViewController {
         send?.shouldPlay = true
     }
     
-
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true
+        )
+    }
 }

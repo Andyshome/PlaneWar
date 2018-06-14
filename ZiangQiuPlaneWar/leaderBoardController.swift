@@ -40,7 +40,7 @@ class leaderBoardController: UIViewController, UITableViewDataSource, UITableVie
      
      
      */
-  
+  // set up count of this game 
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
     
@@ -59,7 +59,7 @@ class leaderBoardController: UIViewController, UITableViewDataSource, UITableVie
         
     }
     
-    
+    // set cell for this controller
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
         
         let cell = UITableViewCell(style: UITableViewCellStyle.default, reuseIdentifier: "leaderBoardCell")
@@ -83,7 +83,7 @@ class leaderBoardController: UIViewController, UITableViewDataSource, UITableVie
         }
         
         if var nomalList  = nomalListObject as? Array<String> {
-            nomalList.sort(by:>)
+            nomalList.sort(by:<)
             cell.textLabel?.text = nomalList[indexPath.row]
             cell.textLabel?.font = UIFont(name:"Party LET", size:30)
             
